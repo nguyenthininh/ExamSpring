@@ -28,14 +28,14 @@ public class ApiAdminController {
     }
 
     //lay 1 danh sach
-//    @GetMapping("/human/{id}")
-//    public ResponseEntity<Op<HumanEntity>> getOneHuman(@PathVariable("id") Integer id ){
-//        Optional<HumanEntity> human = HumanService.findById(id);
-//        if (human.isPresent()){
-//            return new ResponseEntity<>(human, HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @GetMapping("/human/{id}")
+    public ResponseEntity<Optional<HumanEntity>> getOneHuman(@PathVariable("id") Integer id ){
+        Optional<HumanEntity> human = humanService.findById(id);
+        if (human.isPresent()){
+            return new ResponseEntity<>(human, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     //Them 1 product
     @PostMapping("/human")
@@ -48,24 +48,23 @@ public class ApiAdminController {
         }
     }
 
-//    //Sua danh sach
-//    @PutMapping("/human/{id}")
-//    public ResponseEntity<Optional<HumanEntity>> editHuman(@PathVariable("id") Integer id,
-//                                                             @RequestBody HumanEntity humanEntity)
-//    {
-//        Optional<HumanEntity> update = HumanEntity.find(id);
-//        if (update.isPresent()){
-//            HumanEntity product = update.get();
-//            product.setName(humanEntity.getName());
-//            product.setDescs(humanEntity.getDescs());
-//            product.setPrice(productEntity.getPrice());
-//            product.setStatus(productEntity.getStatus());
-//
-//            productService.save(product);
-//                return new ResponseEntity<>(update, HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    //Sua danh sach
+    @PutMapping("/human/{id}")
+    public ResponseEntity<Optional<HumanEntity>> editHuman(@PathVariable("id") Integer id,
+                                                             @RequestBody HumanEntity humanEntity)
+    {
+        Optional<HumanEntity> update =humanService.findById(id);
+        if (update.isPresent()){
+            HumanEntity human = update.get();
+            human.setName(humanEntity.getName());
+            human.setEmail(humanEntity.getEmail());
+            human.setAddress(humanEntity.getAddress());
+
+            humanService.save(human);
+                return new ResponseEntity<>(update, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 //
     //Xoa danh sach
     @DeleteMapping("/human/{id}")
